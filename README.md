@@ -531,7 +531,7 @@ void main() async {
 ### Review the screenshot results
 The screenshots used in setupScreenshot are generated after the test completes...
 
-![Integration Testing Screenshots](https://raw.githubusercontent.com/the-mac/integration_test_helper/main/media/integration_test_5.png)
+![Integration Testing Screenshots](https://raw.githubusercontent.com/the-mac/integration_test_helper/main/media/integration_test_4.png)
 
 <table border="0">
   <tr>integration_test_preview/media/screenshots/android/hello_flutter_1.png
