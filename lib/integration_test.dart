@@ -76,15 +76,17 @@ abstract class IntegrationTestPreview extends BaseIntegrationTest {
       await testDeviceEndToEnd(testOrderLocalCopy[index]);
       await _selectNextScreenType();
       await _completedTest();
+      await waitForUI();
     }
-    await waitForUI();
+    await waitForUI(durationMultiple: 3);
   }
 
-  Future<void> takeScreenshot(String filePath) async {
-      
+  Future<void> takeScreenshot(String filePath) async {      
+      await waitForUI();
       if(_screenshotState == ScreenshotState.PREVIEW) {
           final context = await getBuildContext();
           binding.takePreviewScreenshot(context, filePath);
+          await waitForUI(durationMultiple: 3);
       } else if(_screenshotState == ScreenshotState.RESPONSIVE) {
           binding.takeScreenshot(filePath);
       }
