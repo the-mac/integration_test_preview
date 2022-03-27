@@ -3,9 +3,7 @@
   <a href="https://pub.dartlang.org/packages/integration_test_preview"><img src="https://img.shields.io/pub/v/integration_test_preview.svg"></a>
 </p>
 
-## Integration Test Preview
-
-Integration Test Preview has pre-configured methods that allow for faster test deployment for end to end (e2e) test coverage (using Android and iOS platform UIs). The Integration Test Preview is based upon the [Integration Test Helper](https://pub.dev/packages/integration_test_helper) and [Device Preview](https://pub.dev/packages/device_preview) packages, and does much more with the combination of the two of them. It also allows for specific device size screenshots for the app stores, generated locally in your project path.
+Integration Test Preview has pre-configured methods that allow for faster test deployment for end to end (e2e) test coverage (using Android and iOS platform UIs). This package is based upon the [Integration Test Helper](https://pub.dev/packages/integration_test_helper) and [Device Preview](https://pub.dev/packages/device_preview) packages, and does much more with the combination of the two of them. It also allows for specific device size preview screenshots for the app stores, generated locally in your project path.
 
 <p align="center">
   <img width="460" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_preview.gif" alt="Integration Test Preview" />
@@ -23,7 +21,7 @@ import 'package:device_frame/src/devices/devices.dart';
 import 'package:integration_test_preview/integration_test_binding.dart';
 
 import 'package:example/main.dart' as app;
-import 'app_test_groups.dart';
+import 'app_feature_groups.dart';
 
 void main() async {
 
@@ -91,7 +89,7 @@ dev_dependencies:
 
 ```
 
-### Add Integration Test Driver file (test_driver/integration_test.dart)
+### Add Integration Test Driver file (test_driver/app_features_test.dart)
 ```dart
 
 import 'dart:io';
@@ -383,7 +381,7 @@ class MyHomePage extends StatelessWidget {
 
 ```
 
-### Import Flutter Test & Integration Test Preview (in integration_test/app_test_groups.dart)
+### Import Flutter Test & Integration Test Preview (in integration_test/app_feature_groups.dart)
 ```yaml
     ...
 import 'dart:io';
@@ -397,7 +395,7 @@ import 'package:example/platforms.dart';
 
 ```
 
-### Subclass IntegrationTestPreview (in integration_test/app_test_groups.dart)
+### Subclass IntegrationTestPreview (in integration_test/app_feature_groups.dart)
 
 The Integration Test Preview supports platform specific implementations, for methods like the showHelloFlutter
 method. This method uses the Drawer for Android and accomodates the Android environment UI interations. And uses 
@@ -486,7 +484,7 @@ class ScreenIntegrationTestGroups extends IntegrationTestPreview {
 
 ```
 
-### Setup IntegrationTestPreview Subclass (in integration_test/app_test.dart)
+### Setup IntegrationTestPreview Subclass (in integration_test/app_features.dart)
 ```dart
 
 import 'package:flutter_test/flutter_test.dart';
@@ -495,7 +493,7 @@ import 'package:device_frame/src/devices/devices.dart';
 import 'package:integration_test_preview/integration_test_binding.dart';
 
 import 'package:example/main.dart' as app;
-import 'app_test_groups.dart';
+import 'app_feature_groups.dart';
 
 void main() async {
 
@@ -521,17 +519,19 @@ void main() async {
 
 ```
 
-### Run Driver on BaseIntegrationTest Subclass (using integration_test/app_test.dart)
+### Run Driver on IntegrationTestPreview Subclass (using integration_test/app_features.dart)
 ```bash
 
-    flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
+    flutter drive -t integration_test/app_features.dart
 
 ```
 
 ### Review the screenshot results
+
 The screenshots used in setupScreenshot are generated after the test completes...
 
 ![Integration Testing Screenshots](https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_4.png)
+
 
 <table border="0" style="margin-left: auto; margin-right: auto;">
   <tr>
@@ -551,83 +551,17 @@ The screenshots used in setupScreenshot are generated after the test completes..
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+### Alternatively, you can run the example
+The [example project](https://github.com/the-mac/integration_test_preview/tree/main/example) has 5 screens that have grouped integration tests:
 
-<h4 align="center">Integration Test on multiple screen sizes in a single e2e test run, to see how your app looks and performs on another device.</h4>
+- [Hello, Flutter](https://github.com/the-mac/integration_test_preview/blob/3eedfecec4b43fc1c453838c1fe7591da87afac1/example/integration_test/app_feature_groups.dart#L139)
+- [Hello, Languages](https://github.com/the-mac/integration_test_preview/blob/3eedfecec4b43fc1c453838c1fe7591da87afac1/example/integration_test/app_feature_groups.dart#L146)
+- [Counter Sample](https://github.com/the-mac/integration_test_preview/blob/3eedfecec4b43fc1c453838c1fe7591da87afac1/example/integration_test/app_feature_groups.dart#L169)
+- [Mobile Community](https://github.com/the-mac/integration_test_preview/blob/3eedfecec4b43fc1c453838c1fe7591da87afac1/example/integration_test/app_feature_groups.dart#L192)
+- [Preferences](https://github.com/the-mac/integration_test_preview/blob/3eedfecec4b43fc1c453838c1fe7591da87afac1/example/integration_test/app_feature_groups.dart#L230)
 
+### Package Support
+To support this repo, take a look at the [SUPPORT.md](https://github.com/the-mac/integration_test_preview/blob/main/SUPPORT.md) file.
 
-## Documentation
-
-<a href='https://aloisdeniel.github.io/flutter_device_preview/' target='_blank'>Open the website</a>
-
-## Demo
-
-<a href='https://flutter-device-preview.firebaseapp.com/' target='_blank'>Open the demo</a>
-
-## Limitations
-
-Think of Device Preview as a first-order approximation of how your app looks and feels on a mobile device. With Device Mode you don't actually run your code on a mobile device. You simulate the mobile user experience from your laptop, desktop or tablet.
-
-> There are some aspects of mobile devices that Device Preview will never be able to simulate. When in doubt, your best bet is to actually run your app on a real device.
-
-
-## Main features
-
-* Preview any device from any device
-* Change the device orientation
-* Dynamic system configuration (*language, dark mode, text scaling factor, ...)*
-* Freeform device with adjustable resolution and safe areas
-* Keep the application state
-* Plugin system (*Screenshot, File explorer, ...*)
-* Customizable plugins
-
-## Quickstart
-
-### Add dependency to your pubspec file
-
-Since Device Preview is a simple Dart package, you have to declare it as any other dependency in your `pubspec.yaml` file.
-
-```yaml
-dependencies:
-  device_preview: <latest version>
-```
-
-### Add DevicePreview
-
-Wrap your app's root widget in a `DevicePreview` and make sure to :
-
-* Set your app's `useInheritedMediaQuery` to `true`.
-* Set your app's `builder` to `DevicePreview.appBuilder`.
-* Set your app's `locale` to `DevicePreview.locale(context)`.
-
-> Make sure to override the previous properties as described. If not defined, `MediaQuery` won't be simulated for the selected device.
-
-```dart
-import 'package:device_preview/device_preview.dart';
-
-void main() => runApp(
-  DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => MyApp(), // Wrap your app
-  ),
-);
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      useInheritedMediaQuery: true,
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      home: const HomePage(),
-    );
-  }
-}
-```
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+### Package Documentation
+To view the documentation on the package, [follow this link](https://pub.dev/documentation/integration_test_preview/latest/integration_test_preview/integration_test_preview-library.html)

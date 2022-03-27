@@ -2,14 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:device_preview/device_preview.dart';
-import 'package:flutter_driver/flutter_driver.dart';
-
-import 'dart:io';
-import 'dart:ui';
-import 'package:integration_test/common.dart';
-import 'package:integration_test/src/channel.dart';
-import 'package:flutter/services.dart';
-import 'package:integration_test/_callback_io.dart';
 
 
 enum ScreenshotState { NONE, PREVIEW, RESPONSIVE }
@@ -46,19 +38,19 @@ class IntegrationTestPreviewBinding extends IntegrationTestWidgetsFlutterBinding
     return super.takeScreenshot(screenshotName);
   }
 
-  /// Takes a preview screenshot.
+  /// Takes a preview screenshot using DevicePreview.screenshot(context).
   Future<List<int>> takePreviewScreenshot(BuildContext context, String screenshotName) async {
 
+    final Map<String, dynamic> data = {};
     reportData ??= <String, dynamic>{};
     reportData!['screenshots'] ??= <dynamic>[];
+
     final screenshot = await DevicePreview.screenshot(context);
-    final Map<String, dynamic> data = {};
     data['bytes'] = screenshot.bytes;
     data['screenshotName'] = screenshotName;
+
     assert(data.containsKey('bytes'));
-
     (reportData!['screenshots']! as List<dynamic>).add(data);
-
     return data['bytes']! as List<int>;
 
   }
