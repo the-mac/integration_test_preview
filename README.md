@@ -1,97 +1,43 @@
 
 <p align="center">
   <a href="https://pub.dartlang.org/packages/integration_test_preview"><img src="https://img.shields.io/pub/v/integration_test_preview.svg"></a>
-  <a href="https://www.buymeacoffee.com/aloisdeniel">
-    <img src="https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&amp;style=flat">
-  </a>
 </p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_preview.gif" alt="Device Preview for Flutter" />
+</p>
+
+The Integration Test Preview is based upon the [Integration Test Helper](https://pub.dev/packages/integration_test_helper) and [Device Preview](https://pub.dev/packages/device_preview) packages, and does much more with the combination of the 2 of them. 
+
+The Integration Test Helper is built on top of [Flutter's Integration Tests](https://docs.flutter.dev/testing/integration-tests). Running End to End (e2e) tests can become bloated and unorganized code, and [lead to regressions](https://en.wikipedia.org/wiki/Software_regression) but with this helper, writing tests can be faster, modular and with [full test coverage](https://www.simform.com/blog/test-coverage/).
+
+Device Preview package approximates how your app looks and performs on another device.
 
 <p align="center">
   <img src="https://github.com/aloisdeniel/flutter_device_preview/raw/master/device_preview.gif" alt="Device Preview for Flutter" />
 </p>
 
-## Main features
-
-* Preview any device from any device
-* Change the device orientation
-* Dynamic system configuration (*language, dark mode, text scaling factor, ...)*
-* Freeform device with adjustable resolution and safe areas
-* Keep the application state
-* Plugin system (*Screenshot, File explorer, ...*)
-* Customizable plugins
-
-## Quickstart
-
-### Add dependency to your pubspec file
-
-Since Device Preview is a simple Dart package, you have to declare it as any other dependency in your `pubspec.yaml` file.
-
-```yaml
-dependencies:
-  device_preview: <latest version>
-```
-
-### Add DevicePreview
-
-Wrap your app's root widget in a `DevicePreview` and make sure to :
-
-* Set your app's `useInheritedMediaQuery` to `true`.
-* Set your app's `builder` to `DevicePreview.appBuilder`.
-* Set your app's `locale` to `DevicePreview.locale(context)`.
-
-> Make sure to override the previous properties as described. If not defined, `MediaQuery` won't be simulated for the selected device.
-
-```dart
-import 'package:device_preview/device_preview.dart';
-
-void main() => runApp(
-  DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => MyApp(), // Wrap your app
-  ),
-);
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      useInheritedMediaQuery: true,
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      home: const HomePage(),
-    );
-  }
-}
-```
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-The Integration Test Helper has pre-configured methods that allow for faster test deployment for end to end (e2e) test coverage (using Android and iOS platform UIs).
+Integration Test Preview has pre-configured methods that allow for faster test deployment for end to end (e2e) test coverage (using Android and iOS platform UIs). It also allows for device dimensions specific screenshots for the app stores generated locally in your project path.
 
 <table border="0">
   <tr>
-    <td><img width="140" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_0.png"></td>
-    <td><img width="140" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_1.png"></td>
-    <td><img width="140" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_2.png"></td>
-    <td><img width="140" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_3.png"></td>
-    <td><img width="140" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_preview.gif"></td>
+    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_0.png"></td>
+    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_1.png"></td>
+    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_2.png"></td>
+    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_3.png"></td>
   </tr>  
   <tr center>
     <td  align="center"><p>Open Drawer</p></td>
     <td  align="center"><p>Languages</p></td>
     <td  align="center"><p>Counter</p></td>
     <td  align="center"><p>The MAC</p></td>
-    <td  align="center"><p>All Pages</p></td>
   </tr>   
 </table>
 
 ## Features
 
-The Integration Test Helper is built on top of [Flutter's Integration Tests](https://docs.flutter.dev/testing/integration-tests). Running End to End (e2e) tests can become bloated and unorganized code, and [lead to regressions](https://en.wikipedia.org/wiki/Software_regression) but with this helper, writing tests can be faster, modular and with [full test coverage](https://www.simform.com/blog/test-coverage/). This approach allows for a cleaner development experience, and [less regressions within your apps](https://www.gratasoftware.com/what-is-regression-in-software-development/).
+ This approach allows for a cleaner development experience, and [less regressions within your apps](https://www.gratasoftware.com/what-is-regression-in-software-development/).
 
-[![Regression Testing](https://raw.githubusercontent.com/the-mac/integration_test_helper/main/media/integration_test_4.png)](https://youtu.be/0wHKVXbsppw)
 
 Integration Test Helper (or the BaseIntegrationTest class) allows for [BlackBox Testing](https://www.guru99.com/black-box-testing.html) using fixture data. The fixtures currently support JSON data, and can be loaded from anywhere within the project folder. Here is what the fixture test data (assets/fixtures/languages.json) looks like that is being blackbox tested...
 
@@ -766,3 +712,63 @@ from the package authors, and more.
 Think of Device Preview as a first-order approximation of how your app looks and feels on a mobile device. With Device Mode you don't actually run your code on a mobile device. You simulate the mobile user experience from your laptop, desktop or tablet.
 
 > There are some aspects of mobile devices that Device Preview will never be able to simulate. When in doubt, your best bet is to actually run your app on a real device.
+
+
+## Main features
+
+* Preview any device from any device
+* Change the device orientation
+* Dynamic system configuration (*language, dark mode, text scaling factor, ...)*
+* Freeform device with adjustable resolution and safe areas
+* Keep the application state
+* Plugin system (*Screenshot, File explorer, ...*)
+* Customizable plugins
+
+## Quickstart
+
+### Add dependency to your pubspec file
+
+Since Device Preview is a simple Dart package, you have to declare it as any other dependency in your `pubspec.yaml` file.
+
+```yaml
+dependencies:
+  device_preview: <latest version>
+```
+
+### Add DevicePreview
+
+Wrap your app's root widget in a `DevicePreview` and make sure to :
+
+* Set your app's `useInheritedMediaQuery` to `true`.
+* Set your app's `builder` to `DevicePreview.appBuilder`.
+* Set your app's `locale` to `DevicePreview.locale(context)`.
+
+> Make sure to override the previous properties as described. If not defined, `MediaQuery` won't be simulated for the selected device.
+
+```dart
+import 'package:device_preview/device_preview.dart';
+
+void main() => runApp(
+  DevicePreview(
+    enabled: !kReleaseMode,
+    builder: (context) => MyApp(), // Wrap your app
+  ),
+);
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      useInheritedMediaQuery: true,
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      home: const HomePage(),
+    );
+  }
+}
+```
+
+TODO: Put a short description of the package here that helps potential users
+know whether this package might be useful for them.
