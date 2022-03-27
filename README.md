@@ -3,43 +3,17 @@
   <a href="https://pub.dartlang.org/packages/integration_test_preview"><img src="https://img.shields.io/pub/v/integration_test_preview.svg"></a>
 </p>
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_preview.gif" alt="Device Preview for Flutter" />
-</p>
+## Integration Test Preview
 
-The Integration Test Preview is based upon the [Integration Test Helper](https://pub.dev/packages/integration_test_helper) and [Device Preview](https://pub.dev/packages/device_preview) packages, and does much more with the combination of the 2 of them. 
-
-The Integration Test Helper is built on top of [Flutter's Integration Tests](https://docs.flutter.dev/testing/integration-tests). Running End to End (e2e) tests can become bloated and unorganized code, and [lead to regressions](https://en.wikipedia.org/wiki/Software_regression) but with this helper, writing tests can be faster, modular and with [full test coverage](https://www.simform.com/blog/test-coverage/).
-
-Device Preview package approximates how your app looks and performs on another device.
+Integration Test Preview has pre-configured methods that allow for faster test deployment for end to end (e2e) test coverage (using Android and iOS platform UIs). The Integration Test Preview is based upon the [Integration Test Helper](https://pub.dev/packages/integration_test_helper) and [Device Preview](https://pub.dev/packages/device_preview) packages, and does much more with the combination of the two of them. It also allows for specific device size screenshots for the app stores, generated locally in your project path.
 
 <p align="center">
-  <img src="https://github.com/aloisdeniel/flutter_device_preview/raw/master/device_preview.gif" alt="Device Preview for Flutter" />
+  <img width="460" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_preview.gif" alt="Integration Test Preview" />
 </p>
 
-Integration Test Preview has pre-configured methods that allow for faster test deployment for end to end (e2e) test coverage (using Android and iOS platform UIs). It also allows for device dimensions specific screenshots for the app stores generated locally in your project path.
+## Integration Test Helper
 
-<table border="0">
-  <tr>
-    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_0.png"></td>
-    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_1.png"></td>
-    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_2.png"></td>
-    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_3.png"></td>
-  </tr>  
-  <tr center>
-    <td  align="center"><p>Open Drawer</p></td>
-    <td  align="center"><p>Languages</p></td>
-    <td  align="center"><p>Counter</p></td>
-    <td  align="center"><p>The MAC</p></td>
-  </tr>   
-</table>
-
-## Features
-
- This approach allows for a cleaner development experience, and [less regressions within your apps](https://www.gratasoftware.com/what-is-regression-in-software-development/).
-
-
-Integration Test Helper (or the BaseIntegrationTest class) allows for [BlackBox Testing](https://www.guru99.com/black-box-testing.html) using fixture data. The fixtures currently support JSON data, and can be loaded from anywhere within the project folder. Here is what the fixture test data (assets/fixtures/languages.json) looks like that is being blackbox tested...
+Including the Integration Test Helper package we can run End to End (e2e) tests faster, more modular and with [full test coverage](https://www.simform.com/blog/test-coverage/). Integration Test Helper (or the BaseIntegrationTest class) allows for [BlackBox Testing](https://www.guru99.com/black-box-testing.html) using fixture data. The fixtures currently support JSON data, and can be loaded from anywhere within the project folder. Here is what the fixture test data (assets/fixtures/languages.json) looks like that is being blackbox tested...
 
 ```json
 {
@@ -178,21 +152,78 @@ And here is an example of using that Key to tap the list item widget:
 
 ```
 
+## Device Preview
+Including the Device Preview package we can approximate how your app looks and performs on another device.
+
+<p align="center">
+  <img src="https://github.com/aloisdeniel/flutter_device_preview/raw/master/device_preview.gif" alt="Device Preview for Flutter" />
+</p>
+
+### Main features
+
+* Preview any device from any device
+* Change the device orientation
+* Dynamic system configuration (*language, dark mode, text scaling factor, ...)*
+* Freeform device with adjustable resolution and safe areas
+* Keep the application state
+* Plugin system (*Screenshot, File explorer, ...*)
+* Customizable plugins
+
+## Integration Test Preview Features
+
+When running a test using a IntegrationTestPreview subclass, you can assign the devices that you want to test against (and take screenshots for). The following is an example of how you can test all your features end to end on multiple screen types:
+
+```dart
+
+import 'package:flutter_test/flutter_test.dart';
+import 'package:device_frame/src/info/info.dart';
+import 'package:device_frame/src/devices/devices.dart';
+import 'package:integration_test_preview/integration_test_binding.dart';
+
+import 'package:example/main.dart' as app;
+import 'app_test_groups.dart';
+
+void main() async {
+
+    final binding = IntegrationTestPreviewBinding.ensureInitialized();
+
+    testWidgets('Testing end to end multi-screen integration', (WidgetTester tester) async {
+      
+          final main = app.setupMainWidget();
+          final List<DeviceInfo> testDevices = [
+            Devices.ios.iPhone12,
+            Devices.android.samsungGalaxyNote20
+          ];
+          
+          final integrationTestGroups = ScreenIntegrationTestGroups(binding);
+          await integrationTestGroups.initializeDevices(testDevices, state: ScreenshotState.PREVIEW);
+          await integrationTestGroups.initializeTests(tester, main);
+          await integrationTestGroups.testDevicesEndToEnd();
+
+      }, timeout: const Timeout(Duration(minutes: 3))
+    );
+    
+}
+
+```
+
+Note: The testDevicesEndToEnd calls to your IntegrationTestPreview subclass implementation of testDeviceEndToEnd(DeviceInfo device).
+
 ## Getting started
 
-Note: this package example uses another one of our packages. It's called the drawer_manager 
+Note: This example uses another one of our packages. It's called the drawer_manager 
 package, and can be found [here](https://pub.dev/packages/drawer_manager) for more details on how it works.
 
-### Install Provider, Drawer Manager & Integration Test Helper
+### Install Provider, Drawer Manager & Integration Test Preview
 ```bash
 
   flutter pub get provider
   flutter pub get drawer_manager
-  flutter pub get integration_test_helper
+  flutter pub get integration_test_preview
 
 ```
 
-### Or install Provider, Drawer Manager & Integration Test Helper (in pubspec.yaml)
+### Or install Provider, Drawer Manager & Integration Test Preview (in pubspec.yaml)
 ```yaml
 
     ...
@@ -214,7 +245,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
 
-  integration_test_helper: 0.0.1
+  integration_test_preview: <latest_version>
 
 ```
 
@@ -467,28 +498,11 @@ class MyHomePage extends StatelessWidget {
             items: [
                 BottomNavigationBarItem(
                     label: _getTitle(0),
-                    tooltip: _getTabBarTitle(0),
                     icon: const Icon(Icons.hail_rounded),
                 ),
                 BottomNavigationBarItem(
                     label: _getTitle(1),
-                    tooltip: _getTabBarTitle(1),
                     icon: const Icon(Icons.hail_rounded),
-                ),
-                BottomNavigationBarItem(
-                    label: _getTitle(2),
-                    tooltip: _getTabBarTitle(2),
-                    icon: const Icon(Icons.calculate),
-                ),
-                BottomNavigationBarItem(
-                    label: _getTitle(3),
-                    tooltip: _getTabBarTitle(3),
-                    icon: const Icon(Icons.plus_one),
-                ),
-                BottomNavigationBarItem(
-                    label: _getTitle(4),
-                    tooltip: _getTabBarTitle(4),
-                    icon: const Icon(Icons.settings),
                 ),
             ],
         ),
@@ -498,28 +512,11 @@ class MyHomePage extends StatelessWidget {
             switch (index) {
             case 0:
                 return CupertinoTabView(
-                    // defaultTitle: title,
-                    builder: (context) => const HelloPage(),
+                    builder: (context) => const HelloPage(position: 1),
                 );
             case 1:
                 return CupertinoTabView(
-                    // defaultTitle: title,
-                    builder: (context) => const LanguagesPage(),
-                );
-            case 2:
-                return CupertinoTabView(
-                    // defaultTitle: title,
-                    builder: (context) => const CounterPage(),
-                );
-            case 3:
-                return CupertinoTabView(
-                    // defaultTitle: title,
-                    builder: (context) => const TheMACPage(),
-                );
-            case 4:
-                return CupertinoTabView(
-                    // defaultTitle: title,
-                    builder: (context) => PreferencesPage(),
+                    builder: (context) => const HelloPage(position: 2),
                 );
             default:
                 assert(false, 'Unexpected tab');
