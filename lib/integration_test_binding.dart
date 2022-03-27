@@ -2,8 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:device_preview/device_preview.dart';
 
-import 'integration_test.dart';
-
 enum ScreenshotState { NONE, PREVIEW, RESPONSIVE }
 
 class IntegrationTestPreviewBinding extends IntegrationTestWidgetsFlutterBinding {

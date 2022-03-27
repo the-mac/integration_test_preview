@@ -259,6 +259,7 @@ Future<void> main() => integrationDriver(
     onScreenshot: (String screenshotPath, List<int> screenshotBytes) async {
         
         final File image = File(screenshotPath);
+        print('$image');
 
         final dir = image.parent;
         if(!await dir.exists()) await dir.create(recursive: true);
@@ -387,10 +388,12 @@ class HelloPage extends StatelessWidget {
 
 ```dart
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:drawer_manager/drawer_manager.dart';
 
+import 'platforms.dart';
 import 'hello.dart';
 
 void main() {
@@ -542,8 +545,13 @@ class MyHomePage extends StatelessWidget {
 ```yaml
     ...
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:device_frame/src/info/info.dart';
 import 'package:integration_test_preview/integration_test_preview.dart';
+
+import 'package:example/platforms.dart';
 
 ```
 
@@ -556,6 +564,8 @@ the Tab Bar for iOS and accomodates the iOS environment UI interations.
 ```dart
 
 class ScreenIntegrationTestGroups extends IntegrationTestPreview {
+
+    ScreenIntegrationTestGroups(binding) : super(binding);
 
     // ...
 
@@ -592,9 +602,11 @@ class ScreenIntegrationTestGroups extends IntegrationTestPreview {
 
     Future<void> showHelloFlutter({required int position}) async {
         print('Showing Hello, Flutter $position!');
-        if(Platform.isAndroid) {
+        if(PlatformWidget.isAndroid) {
             await tapForTooltip('Open navigation menu');
             await tapForKey('drawer-hello-$position');
+        } else {
+            await tapWidget('Hello $position');
         }
         await waitForUI();
     }
@@ -606,14 +618,22 @@ class ScreenIntegrationTestGroups extends IntegrationTestPreview {
         await takeScreenshot(screenshotPath);
     }
 
+    Future<void> verifyAppBarText(String text) async {
+
+        if(PlatformWidget.isAndroid) {
+            await verifyTextForKey('app-bar-text', text);
+        }
+      
+    }
+
     Future<void> testHelloFlutterFeature() async {
         await showHelloFlutter(position: 1);
-        await verifyTextForKey('app-bar-text', 'Hello 1');
+        await verifyAppBarText('Hello 1');
         await verifyTextForKey('hello-page-text-1', 'Hello, Flutter 1!');
         await setupScreenshot('hello_flutter_1');
 
         await showHelloFlutter(position: 2);
-        await verifyTextForKey('app-bar-text', 'Hello 2');
+        await verifyAppBarText('Hello 2');
         await verifyTextForKey('hello-page-text-2', 'Hello, Flutter 2!');
         await setupScreenshot('hello_flutter_2');
     }

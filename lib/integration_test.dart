@@ -77,6 +77,7 @@ abstract class IntegrationTestPreview extends BaseIntegrationTest {
       await _selectNextScreenType();
       await _completedTest();
     }
+    await waitForUI();
   }
 
   Future<void> takeScreenshot(String filePath) async {
@@ -87,7 +88,6 @@ abstract class IntegrationTestPreview extends BaseIntegrationTest {
       } else if(_screenshotState == ScreenshotState.RESPONSIVE) {
           binding.takeScreenshot(filePath);
       }
-      
   }
 
   Future<DeviceInfo> _currentScreenOption() async {
