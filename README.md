@@ -534,11 +534,11 @@ The screenshots used in setupScreenshot are generated after the test completes..
 ![Integration Testing Screenshots](https://raw.githubusercontent.com/the-mac/integration_test_helper/main/media/integration_test_5.png)
 
 <table border="0">
-  <tr>
-    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_android_hello_1.png"></td>
-    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_android_hello_2.png"></td>
-    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_ios_hello_1.png"></td>
-    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_ios_hello_2.png"></td>
+  <tr>integration_test_preview/media/screenshots/android/hello_flutter_1.png
+    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/screenshots/android/hello_flutter_1.png"></td>
+    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/screenshots/android/hello_flutter_2.png"></td>
+    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/screenshots/ios/hello_flutter_1.png"></td>
+    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/screenshots/ios/hello_flutter_2.png"></td>
   </tr>  
   <tr center>
     <td  align="center"><p>Android Hello 1</p></td>
