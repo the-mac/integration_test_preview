@@ -1,13 +1,13 @@
 
 // ignore_for_file: avoid_print
-import 'package:example/platforms.dart';
-import 'package:device_frame/src/info/info.dart';
+import 'package:device_frame_community/src/info/info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test_preview/integration_test_preview.dart';
 
 import 'package:example/the_mac.dart';
+import 'package:example/platforms.dart';
 import 'package:example/preferences.dart';
 
 class ScreenIntegrationTestGroups extends IntegrationTestPreview {

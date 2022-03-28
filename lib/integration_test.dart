@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:device_preview/device_preview.dart';
+import 'package:device_preview_community/device_preview_community.dart';
+import 'package:device_preview_community/src/views/tool_panel/sections/subsections/device_model.dart';
 import 'package:integration_test_helper/integration_test_helper.dart';
 
 import 'integration_test_binding.dart';

@@ -64,22 +64,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
-  device_frame:
+  device_frame_community:
     dependency: transitive
     description:
-      name: device_frame
+      name: device_frame_community
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
-  device_preview:
+    version: "1.0.2"
+  device_preview_community:
     dependency: transitive
     description:
-      path: device_preview
-      ref: master
-      resolved-ref: "9f7a39c668c86e64f5f4e99d960ea043ffa43453"
-      url: "https://github.com/the-mac/flutter_device_preview.git"
-    source: git
-    version: "1.0.0"
+      name: device_preview_community
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   drawer_manager:
     dependency: "direct main"
     description:
@@ -170,7 +168,7 @@ packages:
       name: integration_test_helper
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.2"
+    version: "0.0.3"
   integration_test_preview:
     dependency: "direct dev"
     description:

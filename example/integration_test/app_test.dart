@@ -3,8 +3,8 @@
 
 // clear && printf '\e[3J' && flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
 
-import 'package:device_frame/src/devices/devices.dart';
-import 'package:device_frame/src/info/info.dart';
+import 'package:device_frame_community/src/devices/devices.dart';
+import 'package:device_frame_community/src/info/info.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test_preview/integration_test_binding.dart';
 
@@ -28,7 +28,7 @@ void main() async {
           await integrationTestGroups.initializeTests(tester, main);
           await integrationTestGroups.testDevicesEndToEnd();
 
-      }, timeout: const Timeout(Duration(minutes: 3))
+      }, timeout: const Timeout(Duration(minutes: 4))
     );
     
 }
