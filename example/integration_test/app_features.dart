@@ -1,7 +1,7 @@
 
-// clear && printf '\e[3J' && flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart ; flutter clean
+// clear && printf '\e[3J' && flutter drive -t integration_test/app_features.dart ; flutter clean
 
-// clear && printf '\e[3J' && flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
+// clear && printf '\e[3J' && flutter drive -t integration_test/app_features.dart
 
 import 'package:device_frame_community/src/devices/devices.dart';
 import 'package:device_frame_community/src/info/info.dart';
@@ -9,7 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test_preview/integration_test_binding.dart';
 
 import 'package:example/main.dart' as app;
-import 'app_test_groups.dart';
+import 'app_feature_groups.dart';
 
 void main() async {
 

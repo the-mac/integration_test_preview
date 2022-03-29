@@ -2,12 +2,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:device_preview_community/device_preview_community.dart';
+import 'package:integration_test_helper/integration_test_helper.dart';
 
 
 enum ScreenshotState { NONE, PREVIEW, RESPONSIVE }
 
 
-class IntegrationTestPreviewBinding extends IntegrationTestWidgetsFlutterBinding {
+class IntegrationTestPreviewBinding extends IntegrationTestHelperBinding {
   
   /// Similar to [WidgetsFlutterBinding.ensureInitialized].
   ///
@@ -19,23 +20,6 @@ class IntegrationTestPreviewBinding extends IntegrationTestWidgetsFlutterBinding
     }
     assert(WidgetsBinding.instance is IntegrationTestPreviewBinding);
     return WidgetsBinding.instance!;
-  }
-
-  @override
-  Future<void> convertFlutterSurfaceToImage() async {
-    try {
-      await super.convertFlutterSurfaceToImage();
-    } on AssertionError catch (_) {}
-  }
-
-  /// Takes a screenshot including the Device Preview panel.
-  ///
-  /// On Android, you need to call `convertFlutterSurfaceToImage()`, and
-  /// pump a frame before taking a screenshot.
-  @override
-  Future<List<int>> takeScreenshot(String screenshotName) async {
-    await convertFlutterSurfaceToImage();
-    return super.takeScreenshot(screenshotName);
   }
 
   /// Takes a preview screenshot using DevicePreview.screenshot(context).

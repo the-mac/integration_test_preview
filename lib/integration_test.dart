@@ -21,7 +21,7 @@ abstract class IntegrationTestPreview extends BaseIntegrationTest {
 
   final IntegrationTestPreviewBinding binding;
 
-  IntegrationTestPreview(this.binding);
+  IntegrationTestPreview(this.binding) : super(binding);
 
   Future<void> testDeviceEndToEnd(DeviceInfo device);
 

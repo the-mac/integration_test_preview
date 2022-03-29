@@ -170,7 +170,7 @@ class ScreenIntegrationTestGroups extends IntegrationTestPreview {
 
         await showCounterSample();
         await verifyAppBarText('Counter Sample');
-        await setupScreenshot('counter_sample');
+        await setupScreenshot('counter_sample_0');
 
         await verifyTextForKey('counter-page-text', '0');
         await tapForTooltip('Increment');
