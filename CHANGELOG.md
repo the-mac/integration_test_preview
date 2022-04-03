@@ -1,3 +1,7 @@
+## 0.0.4
+
+* Upgrade of Integration Test Helper (0.0.6)
+
 ## 0.0.3
 
 * Upgrade of Integration Test Helper (0.0.5)

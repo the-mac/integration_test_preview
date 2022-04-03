@@ -1,6 +1,6 @@
 name: integration_test_preview
 description: Integration Test Preview has pre-configured methods that allow for faster test deployment for end to end (e2e) test coverage (using Android and iOS platform UIs). This package is based upon the Integration Test Helper and Device Preview packages, and does much more with the combination of the two of them. It also allows for specific device size preview screenshots for the app stores, generated locally in your project path.
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/the-mac/integration_test_preview
 
 environment:
@@ -18,7 +18,7 @@ dependencies:
   integration_test:
     sdk: flutter
   
-  integration_test_helper: ^0.0.5
+  integration_test_helper: ^0.0.6
 
   device_preview_community: ^1.0.3
 
