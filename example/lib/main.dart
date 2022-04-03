@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,8 +35,8 @@ class _MyAppState extends State<MyApp> {
         create: (_) => DrawerManagerProvider(),
         child: PlatformApp(
             defaultPlatform: PlatformWidget.platform,
-            androidApp: const MaterialApp(home: MyHomePage()),
-            iosApp: const CupertinoApp(
+            androidApp: const ResponsiveMaterialApp(home: MyHomePage()),
+            iosApp: const ResponsiveCupertinoApp(
                 theme: CupertinoThemeData(brightness: Brightness.light),
                 home: MyHomePage(),
             )
