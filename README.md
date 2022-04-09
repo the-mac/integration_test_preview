@@ -16,38 +16,36 @@ When running a test using a IntegrationTestPreview subclass, you can assign the 
 ```dart
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:device_frame/src/info/info.dart';
-import 'package:device_frame/src/devices/devices.dart';
 import 'package:integration_test_preview/integration_test_binding.dart';
+import 'package:device_frame_community/src/devices/devices.dart';
+import 'package:device_frame_community/src/info/info.dart';
 
 import 'package:example/main.dart' as app;
 import 'app_feature_groups.dart';
 
 void main() async {
 
+    const minutesPerDevice = 3;
+    final List<DeviceInfo> testDevices = [
+        Devices.ios.iPhone12, Devices.android.samsungGalaxyNote20, Devices.ios.iPadPro11Inches,
+    ];
+    final totalExpectedDuration = Duration(minutes: testDevices.length * minutesPerDevice);
     final binding = IntegrationTestPreviewBinding.ensureInitialized();
 
     testWidgets('Testing end to end multi-screen integration', (WidgetTester tester) async {
       
           final main = app.setupMainWidget();
-          final List<DeviceInfo> testDevices = [
-            Devices.ios.iPhone12,
-            Devices.android.samsungGalaxyNote20
-          ];
           
           final integrationTestGroups = ScreenIntegrationTestGroups(binding);
-          await integrationTestGroups.initializeDevices(testDevices, state: ScreenshotState.PREVIEW);
+          await integrationTestGroups.initializeDevices(testDevices, state: ScreenshotState.RESPONSIVE);
           await integrationTestGroups.initializeTests(tester, main);
-          await integrationTestGroups.testDevicesEndToEnd();
 
-      }, timeout: const Timeout(Duration(minutes: 3))
+      }, timeout: Timeout(totalExpectedDuration)
     );
     
 }
 
 ```
-
-Note: The testDevicesEndToEnd calls to your IntegrationTestPreview subclass implementation of testDeviceEndToEnd(DeviceInfo device).
 
 ## Getting started
 
@@ -351,14 +349,11 @@ class MyHomePage extends StatelessWidget {
         ),
         // ignore: avoid_types_on_closure_parameters
         tabBuilder: (BuildContext context, int index) {
-            final title = _getTitle(index);
             switch (index) {
-            case 0:
-                return CupertinoTabView(
+            case 0: return CupertinoTabView(
                     builder: (context) => const HelloPage(position: 1),
                 );
-            case 1:
-                return CupertinoTabView(
+            case 1: return CupertinoTabView(
                     builder: (context) => const HelloPage(position: 2),
                 );
             default:
@@ -426,17 +421,15 @@ class ScreenIntegrationTestGroups extends IntegrationTestPreview {
     }
     
     @override
-    Future<void> togglePlatformUI(TargetPlatform platform) async {
-        PlatformWidget.setPlatform(platform);
-        PlatformWidget.reassembleApplication();
-        await waitForUI(durationMultiple: 2);
+    Future<void> toggleDeviceUI(DeviceInfo device) async {
+        PlatformWidget.setPlatform(device.identifier.platform);
     }
     
     @override
     Future<void> testDeviceEndToEnd(DeviceInfo device) async {
 
         await waitForUI(durationMultiple: 2);
-        await testHelloFlutterFeature();
+        await testHelloFlutterFeature(device);
 
     }
 
@@ -451,9 +444,10 @@ class ScreenIntegrationTestGroups extends IntegrationTestPreview {
         await waitForUI();
     }
 
-    Future<void> setupScreenshot(String fileName) async {
+    Future<void> setupScreenshot(String fileName, DeviceInfo device) async {
         String platformType = PlatformWidget.isAndroid ? 'android' : 'ios';
-        String screenshotPath = 'screenshots/$platformType/$fileName.png';
+        String devicePath = device.identifier.name.replaceAll('-', '_');
+        String screenshotPath = 'screenshots/$platformType/$devicePath/$fileName.png';
         print('Setting up screenshot: $screenshotPath');
         await takeScreenshot(screenshotPath);
     }
@@ -466,16 +460,16 @@ class ScreenIntegrationTestGroups extends IntegrationTestPreview {
       
     }
 
-    Future<void> testHelloFlutterFeature() async {
+    Future<void> testHelloFlutterFeature(DeviceInfo device) async {
         await showHelloFlutter(position: 1);
         await verifyAppBarText('Hello 1');
         await verifyTextForKey('hello-page-text-1', 'Hello, Flutter 1!');
-        await setupScreenshot('hello_flutter_1');
+        await setupScreenshot('hello_flutter_1', device);
 
         await showHelloFlutter(position: 2);
         await verifyAppBarText('Hello 2');
         await verifyTextForKey('hello-page-text-2', 'Hello, Flutter 2!');
-        await setupScreenshot('hello_flutter_2');
+        await setupScreenshot('hello_flutter_2', device);
     }
 
     // ...
@@ -497,22 +491,22 @@ import 'app_feature_groups.dart';
 
 void main() async {
 
+    const minutesPerDevice = 3;
+    final List<DeviceInfo> testDevices = [
+        Devices.ios.iPhone12, Devices.android.samsungGalaxyNote20, Devices.ios.iPadPro11Inches,
+    ];
+    final totalExpectedDuration = Duration(minutes: testDevices.length * minutesPerDevice);
     final binding = IntegrationTestPreviewBinding.ensureInitialized();
 
     testWidgets('Testing end to end multi-screen integration', (WidgetTester tester) async {
       
           final main = app.setupMainWidget();
-          final List<DeviceInfo> testDevices = [
-            Devices.ios.iPhone12,
-            Devices.android.samsungGalaxyNote20
-          ];
           
           final integrationTestGroups = ScreenIntegrationTestGroups(binding);
-          await integrationTestGroups.initializeDevices(testDevices, state: ScreenshotState.PREVIEW);
+          await integrationTestGroups.initializeDevices(testDevices, state: ScreenshotState.RESPONSIVE);
           await integrationTestGroups.initializeTests(tester, main);
-          await integrationTestGroups.testDevicesEndToEnd();
 
-      }, timeout: const Timeout(Duration(minutes: 3))
+      }, timeout: Timeout(totalExpectedDuration)
     );
     
 }
@@ -526,28 +520,42 @@ void main() async {
 
 ```
 
-### Review the screenshot results
+### Reviewing the screenshot results
 
-The screenshots used in setupScreenshot are generated after the test completes...
+The screenshots used in setupScreenshot are generated after the test completes, in the screenshots directory from the test_driver/app_features_test.dart example above.
 
 ![Integration Testing Screenshots](https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_4.png)
 
+But if you want to review all of them at once there is a helper dart file called [screenshots.dart](https://github.com/the-mac/integration_test_preview/tree/main/screenshots.dart) in the example project. For it to work, you should copy/save the screenshots.dart file to you project's root, and execute the following on a Mac / Linux Device:
 
-<table border="0" style="margin-left: auto; margin-right: auto;">
-  <tr>
-    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/screenshots/android/hello_flutter_1.png"></td>
-    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/screenshots/android/hello_flutter_2.png"></td>
-    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/screenshots/ios/hello_flutter_1.png"></td>
-    <td><img width="160" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/screenshots/ios/hello_flutter_2.png"></td>
-  </tr>  
-  <tr center>
-    <td  align="center"><p>Android Hello 1</p></td>
-    <td  align="center"><p>Android Hello 2</p></td>
-    <td  align="center"><p>iOS Hello 1</p></td>
-    <td  align="center"><p>iOS Hello 2</p></td>
-  </tr>   
-</table>
+```bash
 
+    dart screenshots.dart screenshots/*/*/*
+
+```
+
+Alternatively, you can run the following on a Windows Device:
+```bash
+
+    Get-ChildItem screenshots\* -recurse
+
+```
+
+After the dart script executes, the path for the screenshots.html is displayed in the console:
+
+```bash
+  
+  /Users/your/project/path/screenshots.html
+
+```
+
+This is a preview of the screenshots gallery:
+
+![Integration Testing Screenshots Gallery](https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_5.png)
+
+And this is a preview of the navigation slides:
+
+![Integration Testing Navigation Slides](https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_6.png)
 
 ## Additional information
 
