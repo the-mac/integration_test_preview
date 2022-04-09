@@ -1,5 +1,6 @@
 import 'package:example/platforms.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_widgets_prefix/responsive_widgets_prefix.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final stateKey = GlobalKey();
@@ -53,7 +54,9 @@ class _PreferencesPageState extends State<PreferencesPage> {
   Widget _buildListTile(int position, String title) {
       final prefKey = 'preference-$position';
       return ListTile(
-          title: Text(title),
+          title: ResponsiveText(title,
+            style: const TextStyle(color: Colors.black),
+          ),
           trailing: Switch.adaptive(
             key: Key(prefKey),
             value: Prefs.getBool(prefKey),
@@ -63,16 +66,24 @@ class _PreferencesPageState extends State<PreferencesPage> {
   }
 
   Widget _buildList() {
+    const padding = 5.0;
     return Scaffold(
-        body: ListView(
-        children: [
+      backgroundColor: Colors.white,
+      body: ListView(
+      children: [
           const Padding(padding: EdgeInsets.only(top: 24)),
           _buildListTile(0, 'Notifications for new packages'),
+          ResponsivePadding(padding: const EdgeInsets.only(top: padding)),
           _buildListTile(1, 'Github Pull Requests updates'),
+          ResponsivePadding(padding: const EdgeInsets.only(top: padding)),
           _buildListTile(2, 'Send Mobile Community updates'),
+          ResponsivePadding(padding: const EdgeInsets.only(top: padding)),
           _buildListTile(3, 'Github - Flutter Community updates'),
+          ResponsivePadding(padding: const EdgeInsets.only(top: padding)),
           _buildListTile(4, 'Github - Android Community updates'),
+          ResponsivePadding(padding: const EdgeInsets.only(top: padding)),
           _buildListTile(5, 'Github - iOS Community updates'),
+          ResponsivePadding(padding: const EdgeInsets.only(top: padding)),
           _buildListTile(6, 'Github - Django Community updates')
         ],
     ));

@@ -137,25 +137,25 @@ class PlatformApp extends PlatformWidget {
 
 class PlatformWidget extends StatefulWidget {
   
-  static TargetPlatform? _defaultPlatform;
+  static TargetPlatform? _currentPlatform;
 
   static get platform {
-      if(_defaultPlatform == null) {
+      if(_currentPlatform == null) {
         return TargetPlatform.android;
       }
-      return _defaultPlatform;
+      return _currentPlatform;
   }
 
   static get isAndroid {
-      return _defaultPlatform == TargetPlatform.android;
+      return _currentPlatform == TargetPlatform.android;
   }
 
   static get isIOS {
-      return _defaultPlatform == TargetPlatform.iOS;
+      return _currentPlatform == TargetPlatform.iOS;
   }
 
   static void setPlatform(TargetPlatform platform) {
-      _defaultPlatform = platform;
+      _currentPlatform = platform;
   }
 
   static void reassembleApplication() {
@@ -178,13 +178,13 @@ class PlatformWidget extends StatefulWidget {
 class _PlatformWidgetState extends State<PlatformWidget> {
   @override
   Widget build(context) {
-    switch (PlatformWidget._defaultPlatform) {
+    switch (PlatformWidget._currentPlatform) {
       case TargetPlatform.android:
         return widget.androidBuilder(context);
       case TargetPlatform.iOS:      
         return widget.iosBuilder(context);        
       default:
-        assert(false, 'Unexpected platform ${PlatformWidget._defaultPlatform}');
+        assert(false, 'Unexpected platform ${PlatformWidget._currentPlatform}');
         return Container();
     }
   }
@@ -522,7 +522,7 @@ void main() async {
 
 ### Reviewing the screenshot results
 
-The screenshots used in setupScreenshot are generated after the test completes, in the screenshots directory from the test_driver/app_features_test.dart example above.
+The screenshots named in setupScreenshot are generated after the test completes, in the screenshots directory from the test_driver/app_features_test.dart example above.
 
 ![Integration Testing Screenshots](https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_4.png)
 
@@ -537,11 +537,14 @@ But if you want to review all of them at once there is a helper dart file called
 Alternatively, you can run the following on a Windows Device:
 ```bash
 
-    Get-ChildItem screenshots\* -recurse
+    Get-ChildItem screenshots\* -recurse > devices.txt
+    set /p devices= < devices.txt
+    dart screenshots.dart "%devices%"
 
 ```
+Note: This example should be updated, because it hasn't been tested in Windows.
 
-After the dart script executes, the path for the screenshots.html is displayed in the console:
+After the dart script executes, the path for the screenshots.html is displayed in the console where you can open it in a browser:
 
 ```bash
   
@@ -549,13 +552,21 @@ After the dart script executes, the path for the screenshots.html is displayed i
 
 ```
 
-This is a preview of the screenshots gallery:
+This is a preview of the screenshots gallery that is generated:
 
 ![Integration Testing Screenshots Gallery](https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_5.png)
 
-And this is a preview of the navigation slides:
+And this is a preview of the navigation slides (shown after clicking a screenshot):
 
 ![Integration Testing Navigation Slides](https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_6.png)
+
+There are keyboard hotkeys for the navigation slides:
+← Move to previous screenshot
+→ Move to next screenshot
+↑ Move to previous device (screenshot row)
+→ Move to next device (screenshot row)
+
+Note: The navigation slides circularly cycle, so on the first screenshot ← goes to the last screenshot.
 
 ## Additional information
 

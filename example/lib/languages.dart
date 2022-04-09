@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:example/platforms.dart';
+import 'package:responsive_widgets_prefix/responsive_widgets_prefix.dart';
 
 class LanguagesPage extends StatefulWidget {
 
@@ -99,7 +100,7 @@ class LanguagePreview extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text(
+                      ResponsiveText(
                         name,
                         key: Key('item_${index}_name'),
                         style: const TextStyle(
@@ -107,14 +108,14 @@ class LanguagePreview extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      const Text(
+                      ResponsiveText(
                         ' / ',
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Text(
+                      ResponsiveText(
                         '$year',
                         key: Key('item_${index}_year'),
                         style: const TextStyle(
@@ -125,11 +126,11 @@ class LanguagePreview extends StatelessWidget {
                     ],
                   ),
                   const Padding(padding: EdgeInsets.only(top: 8)),
-                  Text(
+                  ResponsiveText(
                     subtext,
                   ),
                   const Padding(padding: EdgeInsets.only(top: 8)),
-                  Text(
+                  ResponsiveText(
                     category,
                     style: const TextStyle(
                         fontSize: 11, fontStyle: FontStyle.italic),
@@ -165,9 +166,9 @@ class LanguageDetail extends StatelessWidget {
         children: [
           Image.asset('assets/images/$arguments'),
           const Padding(padding: EdgeInsets.only(top: 16)),
-          Text(
+          ResponsiveText(
             description,
-            style: const TextStyle(fontSize: 11, fontStyle: FontStyle.italic),
+            style: const TextStyle(fontSize: 15, fontStyle: FontStyle.italic),
           ),
           const Padding(padding: EdgeInsets.only(top: 8)),
         ],

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:drawer_manager/drawer_manager.dart';
+import 'package:responsive_widgets_prefix/responsive_widgets_prefix.dart';
 
 import 'platforms.dart';
 import 'hello.dart';
@@ -34,11 +35,17 @@ class _MyAppState extends State<MyApp> {
     return ChangeNotifierProvider<DrawerManagerProvider>(
         create: (_) => DrawerManagerProvider(),
         child: PlatformApp(
+            // defaultPlatform: TargetPlatform.iOS,
             defaultPlatform: PlatformWidget.platform,
-            androidApp: const ResponsiveMaterialApp(home: MyHomePage()),
-            iosApp: const ResponsiveCupertinoApp(
-                theme: CupertinoThemeData(brightness: Brightness.light),
-                home: MyHomePage(),
+            defaultScreenType: PlatformWidget.screenType,
+            androidApp: ResponsiveMaterialApp(home: const MyHomePage()),
+            iosApp: ResponsiveCupertinoApp(
+              theme: const CupertinoThemeData(
+                brightness: Brightness.light,
+                primaryColor: Colors.blue,
+                scaffoldBackgroundColor: Colors.white
+              ),
+              home: const MyHomePage(),
             )
         )
     );
@@ -195,7 +202,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         // ignore: avoid_types_on_closure_parameters
         tabBuilder: (BuildContext context, int index) {
-            final title = _getTitle(index);
+            // final title = _getTitle(index);
             switch (index) {
             case 0:
                 return CupertinoTabView(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_widgets_prefix/responsive_widgets_prefix.dart';
 
 class HelloPage extends StatelessWidget {
   
@@ -6,12 +7,12 @@ class HelloPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
+    return Center(
+      child: ResponsiveText(
         'Hello, Flutter!',
-        key: Key('hello-page-text'),
+        key: const Key('hello-page-text'),
         textAlign: TextAlign.center,
-        style: TextStyle(
+        style: const TextStyle(
             color: Color(0xff0085E0),
             fontSize: 48,
             fontWeight: FontWeight.bold

@@ -5,17 +5,18 @@ import 'dart:io';
 import 'package:example/platforms.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_widgets_prefix/responsive_widgets_prefix.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 Map launchResults = {};
 
-class SocialButton extends InkWell {
+class SocialButton extends GestureDetector {
   SocialButton(String title, Color color, IconData icon, {Key? key, required Function() onTap})
       : super(
           key: key,
           onTap: onTap,
-          child: Container(
+          child: ResponsiveContainer(
             height: 40,
             margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             decoration: BoxDecoration(
@@ -25,13 +26,13 @@ class SocialButton extends InkWell {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Icon(
+                ResponsiveIcon(
                   icon,
                   color: Colors.white,
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 20),
-                  child: Text(
+                  child: ResponsiveText(
                     title,
                     style: const TextStyle(
                         color: Colors.white,
@@ -79,6 +80,7 @@ class WebViewContainer extends StatelessWidget {
   Widget _buildIOS(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(),
+      backgroundColor: Colors.white,
       child: SafeArea(
         child: _buildBody(context)
       )
@@ -103,17 +105,34 @@ class TheMACPage extends StatelessWidget {
 
   const TheMACPage({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
+
+  Widget _buildAndroid(BuildContext context) {
     return Scaffold(
-      body: ListView(
+      body: _buildBody(context)
+    );
+  }
+
+  Widget _buildIOS(BuildContext context) {
+    return CupertinoPageScaffold(
+      backgroundColor: Colors.white,
+      child: SafeArea(
+        child: _buildBody(context)
+      )
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return ListView(
         children: [
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+          ),
           Container(
             margin: const EdgeInsets.only(top: 20, bottom: 20),
-            child: const Text(
+            child: ResponsiveText(
               'Welcome to\nThe Mobile Apps Community!',
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Color(0xff0085E0),
                   fontSize: 28,
                   fontWeight: FontWeight.bold)
@@ -121,12 +140,15 @@ class TheMACPage extends StatelessWidget {
           ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Divider(),
           ),
-          Image.asset(
+          ResponsiveAssetImage(
             'assets/the-mac-avatar.jpeg',
-            height: 250,
+            size: const Size(200, 200),
           ),
+          // Image.asset(
+          //   'assets/the-mac-avatar.jpeg',
+          //   height: 250,
+          // ),
           SocialButton(
             'View Integration Test Helper',
             const Color(0xff0085E0),
@@ -158,7 +180,15 @@ class TheMACPage extends StatelessWidget {
             }
           ),
         ],
-      ),
     );
   }
+
+  @override
+  Widget build(context) {
+    return PlatformWidget(
+      androidBuilder: _buildAndroid,
+      iosBuilder: _buildIOS,
+    );
+  }
+  
 }

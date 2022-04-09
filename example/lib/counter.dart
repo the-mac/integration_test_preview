@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_widgets_prefix/responsive_widgets_prefix.dart';
 
 import 'platforms.dart';
 
@@ -32,10 +34,37 @@ class _CounterPageState extends State<CounterPage> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildIOS(BuildContext context) {
     return Scaffold(
-      body: Center(
+      backgroundColor: Colors.white,
+      bottomNavigationBar: const CupertinoNavigationBar(),
+      body: SafeArea(
+        child: _buildBody(context)
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+      bottomSheet: const Padding(padding: EdgeInsets.only(bottom: 10.0))
+    );
+  }
+
+  Widget _buildAndroid(BuildContext context) {
+    return Scaffold(
+      body: _buildBody(context),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
@@ -55,23 +84,26 @@ class _CounterPageState extends State<CounterPage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
+            ResponsiveText(
               'You have pushed the button this many times:',
+              style: const TextStyle(color: Colors.black),
             ),
-            Text(
+            ResponsiveText(
               '$_counter',
               key: const Key('counter-page-text'),
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.headline4!.copyWith(color:Colors.black),
             ),
           ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-      bottomSheet: PlatformWidget.isAndroid ? null : const Padding(padding: EdgeInsets.only(bottom: 100.0)),
+        )
+    );
+  }
+
+
+  @override
+  Widget build(context) {
+    return PlatformWidget(
+      androidBuilder: _buildAndroid,
+      iosBuilder: _buildIOS,
     );
   }
 }

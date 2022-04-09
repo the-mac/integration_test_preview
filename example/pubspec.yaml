@@ -17,7 +17,7 @@ dependencies:
   url_launcher: 6.0.17
   webview_flutter: 3.0.1
   shared_preferences: 2.0.11
-  responsive_widgets_prefix: 0.0.2
+  responsive_widgets_prefix: 0.0.3
 
 dev_dependencies:
 
