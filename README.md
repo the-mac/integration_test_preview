@@ -561,10 +561,10 @@ And this is a preview of the navigation slides (shown after clicking a screensho
 ![Integration Testing Navigation Slides](https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_6.png)
 
 There are keyboard hotkeys for the navigation slides:
-← Move to previous screenshot
-→ Move to next screenshot
-↑ Move to previous device (screenshot row)
-→ Move to next device (screenshot row)
+- ← Moves to previous screenshot
+- → Moves to next screenshot
+- ↑ Moves to previous device (screenshot row)
+- → Moves to next device (screenshot row)
 
 Note: The navigation slides circularly cycle, so on the first screenshot ← goes to the last screenshot.
 

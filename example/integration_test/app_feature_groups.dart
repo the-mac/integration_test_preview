@@ -51,7 +51,6 @@ class ScreenIntegrationTestGroups extends IntegrationTestPreview {
     Future<void> testDeviceEndToEnd(DeviceInfo device) async {
 
         currentDevice = device;
-        await waitForUI(durationMultiple: 2);
         await testHelloFlutterFeature();
         await testLanguagesFeature();
         await testCounterFeature();

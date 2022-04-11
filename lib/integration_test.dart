@@ -18,7 +18,7 @@ abstract class IntegrationTestPreview extends BaseIntegrationTest {
 
   final List<DeviceInfo> _testOrder = [];
 
-  final DeviceInfo _emptyDevice = Devices.android.bigPhone.copyWith(name: 'No Device');
+  final DeviceInfo _emptyDevice = Devices.android.largeTablet.copyWith(name: 'No Device');
 
   late ScreenshotState _screenshotState = ScreenshotState.NONE;
 
@@ -30,6 +30,7 @@ abstract class IntegrationTestPreview extends BaseIntegrationTest {
 
   Future<void> toggleDeviceUI(DeviceInfo device);
 
+  /// Getting a Build Context involves returning the element for the MaterialApp, CupertinoApp or a child of either.
   Future<BuildContext> getBuildContext();
 
   @override Future<bool> isPlatformAndroid() {
@@ -44,33 +45,41 @@ abstract class IntegrationTestPreview extends BaseIntegrationTest {
 
   }
 
-  Future<void> initializeDevices(List<DeviceInfo> testDevices, {bool showToolbar = false, bool hideFrame = false, ScreenshotState state = ScreenshotState.NONE}) async {
+  Future<void> initializeDevices(Set<DeviceInfo> testDevices, {bool showToolbar = false, bool hideFrame = false, ScreenshotState state = ScreenshotState.NONE}) async {
+    
     _shouldShowToolbar = showToolbar;
     _shouldNotShowFrame = hideFrame;
     _screenshotState = state;
     _testOrder.clear();
-    _testOrder.addAll(testDevices);
+    
+    final localTestDevices = testDevices.toList();
+    localTestDevices.sort((leftDevice, rightDevice) {
+      final leftDeviceWidth = leftDevice.screenSize.width;
+      final rightDeviceWidth = rightDevice.screenSize.width;
+      return leftDeviceWidth < rightDeviceWidth ? 1 : -1;
+    });
+    _testOrder.addAll(localTestDevices);
+
   }
   
   @override
-  Future<void> initializeTests(WidgetTester tester, Widget main) async {
+  Future<void> initializeTests(WidgetTester tester, Widget main, {int waitForMilliseconds = 450}) async {
         
         assert(_testOrder.isNotEmpty, 'There needs to be at least one device to test');
 
         this.tester = tester;
+        this.waitForMilliseconds = waitForMilliseconds;
         WidgetsApp.debugAllowBannerOverride = false;
-        final devicePreview = DevicePreview(
+
+        await tester.pumpWidget(DevicePreview(
             enabled: true,
             defaultDevice: _testOrder[0],
             isToolbarVisible: _shouldShowToolbar,
             tools: const [],
             builder: (context) => main
-        );
-        await tester.pumpWidget(devicePreview).then((value) async {
-            
+        )).then((value) async {            
             await setupInitialData();
             await _testDevicesEndToEnd();
-
         });
         
   }
@@ -91,13 +100,15 @@ abstract class IntegrationTestPreview extends BaseIntegrationTest {
 
   @override
   Future<void> takeScreenshot(String filePath) async {  
-      await waitForUI();
       if(_screenshotState == ScreenshotState.PREVIEW) {
+          await waitForUI();
           final context = await getBuildContext();
           binding.takePreviewScreenshot(context, filePath);
           await waitForUI(durationMultiple: 3);
       } else if(_screenshotState == ScreenshotState.RESPONSIVE) {
+          await waitForUI();
           binding.takeScreenshot(filePath);
+          await waitForUI();
       }
   }
 
@@ -127,23 +138,37 @@ abstract class IntegrationTestPreview extends BaseIntegrationTest {
 
   }
 
+  Future<void> _validatePlatformType() async {
+
+    if (! await _hasScreenOption()) return;
+
+    final device = _testOrder[0];
+    
+    final isPlatformTypeAndroid = await isPlatformAndroid();
+    final isPlatformTypeIOS = !isPlatformTypeAndroid;
+
+    final isDevicePlatformAndroid = device.identifier.platform == TargetPlatform.android;
+    final isDevicePlatformIOS = device.identifier.platform == TargetPlatform.iOS;
+
+    final platformTypeIOS = isPlatformTypeIOS && isDevicePlatformIOS;
+    final platformTypeAndroid = isPlatformTypeAndroid && isDevicePlatformAndroid;
+
+    assert(platformTypeIOS || platformTypeAndroid, 'The platform types do not match. Set the correct app type (Material/Cupertino) for your device (${device.identifier})');
+
+  }
+
   Future<void> _updateDevice() async {
 
     if (! await _hasScreenOption()) return;
 
     final device = _testOrder[0];
-
+  
     await toggleDeviceUI(device);
+
     WidgetsBinding.instance!.reassembleApplication();
+    await _validatePlatformType();
 
-    final isPlatformTypeAndroid = await isPlatformAndroid();
-    final isDevicePlatformAndroid = device.identifier.platform == TargetPlatform.android;
-    final platformTypeIOS = !isPlatformTypeAndroid && !isDevicePlatformAndroid;
-    final platformTypeAndroid = isPlatformTypeAndroid && isDevicePlatformAndroid;
-
-    assert(platformTypeIOS || platformTypeAndroid, 'The platform types do not match. Set the correct app type (Material/Cupertino) for your device (${device.identifier})');
-
-    await waitForUI(durationMultiple: 3).then((value) async {
+    await waitForUI().then((value) async {
       DevicePreview.selectDevice(await getBuildContext(), device.identifier);
     });
 

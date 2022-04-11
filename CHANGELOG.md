@@ -1,3 +1,16 @@
+## 0.1.0
+
+* Adding waitForUI call after binding.takePreviewScreenshot
+* Adding waitForUI call after binding.takeScreenshot
+* Adding default waitForMilliseconds = 550 to initializeTests arguments
+* Upgrade of Integration Test Helper (0.0.7)
+* Breaking change: initializeDevices now accepts unordered Set<DeviceInfo>
+* Updated README directions
+* Added Platform Type validation
+* Shortened _setPreviewState time
+* Increased example setupScreenshot wait to 30 times
+* Increased example minutesPerDevice to 4
+
 ## 0.0.5
 
 * Adding responsive_widgets_prefix to example 

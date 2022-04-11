@@ -13,7 +13,7 @@ import 'app_feature_groups.dart';
 
 void main() async {
 
-    const minutesPerDevice = 6;
+    const minutesPerDevice = 7;
     final Set<DeviceInfo> testDevices = {
         Devices.ios.iPadPro11Inches, Devices.android.samsungGalaxyNote20, Devices.ios.iPhone12,
     };
