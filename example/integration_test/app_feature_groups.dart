@@ -133,12 +133,13 @@ class ScreenIntegrationTestGroups extends IntegrationTestPreview {
     }
 
     Future<void> setupScreenshot(String fileName, DeviceInfo device) async {
-        await waitForUI(durationMultiple: 20);
+        await waitForUI(durationMultiple: 30);
         String platformType = PlatformWidget.isAndroid ? 'android' : 'ios';
         String devicePath = device.identifier.name.replaceAll('-', '_');
         String screenshotPath = 'screenshots/$platformType/$devicePath/$fileName.png';
         print('Setting up screenshot: $screenshotPath');
         await takeScreenshot(screenshotPath);
+        await waitForUI(durationMultiple: 15);
     }
 
     Future<void> testHelloFlutterFeature() async {
@@ -203,30 +204,36 @@ class ScreenIntegrationTestGroups extends IntegrationTestPreview {
 
         await verifyExactText('View Integration Test Helper');
         await tapWidget('View Integration Test Helper');
-        await setupScreenshot('4_mobile_community_1_facebook', currentDevice);
-        await tapBackArrow();
+        await waitForUI(durationMultiple: 15);
 
         final launchResultsHasShareURL = launchResults.containsKey(TheMACPage.shareURL);
         final pubDevLaunchSuccessful = launchResultsHasShareURL && launchResults[TheMACPage.shareURL];
         assert(pubDevLaunchSuccessful);
+        
+        await setupScreenshot('4_mobile_community_1_facebook', currentDevice);
+        await tapBackArrow();
 
         await verifyExactText('Check out our Facebook');
         await tapWidget('Check out our Facebook');
-        await setupScreenshot('4_mobile_community_2_facebook', currentDevice);
-        await tapBackArrow();
+        await waitForUI(durationMultiple: 15);
 
         final launchResultsHasFacebookURL = launchResults.containsKey(TheMACPage.facebookURL);
         final facebookLaunchSuccessful = launchResultsHasFacebookURL && launchResults[TheMACPage.facebookURL];
         assert(facebookLaunchSuccessful);
 
+        await setupScreenshot('4_mobile_community_2_facebook', currentDevice);
+        await tapBackArrow();
+
         await verifyExactText('Check out our Github');
         await tapWidget('Check out our Github');
-        await setupScreenshot('4_mobile_community_2_github', currentDevice);
-        await tapBackArrow();
+        await waitForUI(durationMultiple: 15);
 
         final launchResultsHasGithubURL = launchResults.containsKey(TheMACPage.githubURL);
         final githubLaunchSuccessful = launchResultsHasGithubURL && launchResults[TheMACPage.githubURL];
         assert(githubLaunchSuccessful);
+        
+        await setupScreenshot('4_mobile_community_3_github', currentDevice);
+        await tapBackArrow();
 
     }
 

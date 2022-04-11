@@ -18,19 +18,21 @@ class SocialButton extends GestureDetector {
           onTap: onTap,
           child: ResponsiveContainer(
             height: 40,
-            margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            width: 350,
+            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 60),
             decoration: BoxDecoration(
                 color: color,
                 borderRadius: const BorderRadius.all(Radius.circular(10))
             ),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 ResponsiveIcon(
                   icon,
                   color: Colors.white,
                 ),
-                Container(
+                ResponsiveContainer(
                   margin: const EdgeInsets.only(left: 20),
                   child: ResponsiveText(
                     title,
@@ -122,13 +124,14 @@ class TheMACPage extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    return ListView(
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+          ResponsivePadding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 20, bottom: 20),
+          Center(
             child: ResponsiveText(
               'Welcome to\nThe Mobile Apps Community!',
               textAlign: TextAlign.center,
@@ -138,17 +141,10 @@ class TheMACPage extends StatelessWidget {
                   fontWeight: FontWeight.bold)
               ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-          ),
-          ResponsiveAssetImage(
+          ResponsiveImage.asset(
             'assets/the-mac-avatar.jpeg',
-            size: const Size(200, 200),
+            height: 200,
           ),
-          // Image.asset(
-          //   'assets/the-mac-avatar.jpeg',
-          //   height: 250,
-          // ),
           SocialButton(
             'View Integration Test Helper',
             const Color(0xff0085E0),

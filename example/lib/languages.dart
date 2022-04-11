@@ -26,20 +26,6 @@ class _LanguagesPageState extends State<LanguagesPage> {
     setState(() {});
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: false,
-      child: Scaffold(
-        body: ListView.builder(
-      key: const Key('item_list'),
-      itemCount: languages.length,
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      itemBuilder: _listBuilder,
-    )));
-  }
-
   Widget _listBuilder(BuildContext context, int index) {
     final item = languages[index];
     return Card(
@@ -64,6 +50,39 @@ class _LanguagesPageState extends State<LanguagesPage> {
       
     );
   }
+
+  Widget _buildBody(BuildContext context) {
+    return ListView.builder(
+      key: const Key('item_list'),
+      itemCount: languages.length,
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      itemBuilder: _listBuilder,
+    );
+  }
+
+  Widget _buildAndroid(BuildContext context) {
+    return Scaffold(
+      body: _buildBody(context)
+    );
+  }
+
+  Widget _buildIOS(BuildContext context) {
+    return CupertinoPageScaffold(
+      backgroundColor: Colors.white,
+      child: SafeArea(
+        child: _buildBody(context)
+      )
+    );
+  }
+
+  @override
+  Widget build(context) {
+    return PlatformWidget(
+      androidBuilder: _buildAndroid,
+      iosBuilder: _buildIOS,
+    );
+  }
+
 }
 
 class LanguagePreview extends StatelessWidget {
@@ -105,13 +124,15 @@ class LanguagePreview extends StatelessWidget {
                         key: Key('item_${index}_name'),
                         style: const TextStyle(
                           fontSize: 15,
+                          color: Colors.black,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                       ResponsiveText(
                         ' / ',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
+                          color: Colors.black,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -120,6 +141,7 @@ class LanguagePreview extends StatelessWidget {
                         key: Key('item_${index}_year'),
                         style: const TextStyle(
                           fontSize: 15,
+                          color: Colors.black,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -128,12 +150,18 @@ class LanguagePreview extends StatelessWidget {
                   const Padding(padding: EdgeInsets.only(top: 8)),
                   ResponsiveText(
                     subtext,
+                    style: const TextStyle(
+                      color: Colors.black
+                    ),
                   ),
                   const Padding(padding: EdgeInsets.only(top: 8)),
                   ResponsiveText(
                     category,
                     style: const TextStyle(
-                        fontSize: 11, fontStyle: FontStyle.italic),
+                      fontSize: 11,
+                      color: Colors.black,
+                      fontStyle: FontStyle.italic
+                    ),
                   ),
                 ],
               )

@@ -13,10 +13,10 @@ import 'app_feature_groups.dart';
 
 void main() async {
 
-    const minutesPerDevice = 3;
-    final List<DeviceInfo> testDevices = [
-        Devices.ios.iPhone12, Devices.android.samsungGalaxyNote20, Devices.ios.iPadPro11Inches,
-    ];
+    const minutesPerDevice = 6;
+    final Set<DeviceInfo> testDevices = {
+        Devices.ios.iPadPro11Inches, Devices.android.samsungGalaxyNote20, Devices.ios.iPhone12,
+    };
     final totalExpectedDuration = Duration(minutes: testDevices.length * minutesPerDevice);
     final binding = IntegrationTestPreviewBinding.ensureInitialized();
 
