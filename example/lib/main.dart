@@ -9,6 +9,7 @@ import 'hello.dart';
 import 'counter.dart';
 import 'languages.dart';
 import 'the_mac.dart';
+import 'forms.dart';
 import 'preferences.dart';
 
 // clear && printf '\e[3J' && flutter run ; flutter clean
@@ -43,7 +44,8 @@ class _MyAppState extends State<MyApp> {
               theme: const CupertinoThemeData(
                 brightness: Brightness.light,
                 primaryColor: Colors.blue,
-                scaffoldBackgroundColor: Colors.white
+                scaffoldBackgroundColor: Colors.white,
+                primaryContrastingColor: Colors.black
               ),
               home: const MyHomePage(),
             )
@@ -65,9 +67,9 @@ class _MyHomePageState extends State<MyHomePage> {
       switch (index) {
         case 0: return 'Hello';
         case 1: return 'Languages';
-        case 2: return 'Counter Sample';
-        case 3: return 'Mobile Community';
-        case 4: return 'Preferences';
+        case 2: return 'Counter';
+        case 3: return 'Community';
+        case 4: return 'Form Inputs';
         default: return '';
       }
   }
@@ -92,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
       const LanguagesPage(),
       const CounterPage(),
       const TheMACPage(),
-      PreferencesPage()
+      const FormsPage(),
     ];
     
     final manager = Provider.of<DrawerManagerProvider>(context, listen: false);
@@ -154,13 +156,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 // RUN A BACKEND Signup OPERATION
               },
             ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Divider(),
+            ),
             DrawerTile(
-              key: const Key('drawer-preferences'),
+              key: const Key('drawer-forms'),
               context: context,
-              leading: const Icon(Icons.settings),
+              leading: const Icon(Icons.input),
               title: Text(_getTitle(4)),
               onTap: () async {
-                // RUN A BACKEND Preferences OPERATION
+                // RUN A BACKEND Signup OPERATION
               },
             ),
           ],
@@ -196,7 +202,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 BottomNavigationBarItem(
                     label: _getTitle(4),
                     tooltip: _getTabBarTitle(4),
-                    icon: const Icon(Icons.settings),
+                    icon: const Icon(Icons.input),
                 ),
             ],
         ),
@@ -226,8 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
             case 4:
                 return CupertinoTabView(
-                    // defaultTitle: title,
-                    builder: (context) => PreferencesPage(),
+                    builder: (context) => const FormsPage(),
                 );
             default:
                 assert(false, 'Unexpected tab');
