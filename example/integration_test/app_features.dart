@@ -1,7 +1,7 @@
 
 // clear && printf '\e[3J' && flutter drive -t integration_test/app_features.dart ; flutter clean
 
-// clear && printf '\e[3J' && flutter drive -t integration_test/app_features.dart ; dart screenshots.dart screenshots/*/*/*
+// clear && printf '\e[3J' && flutter drive -t integration_test/app_features.dart
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test_preview/integration_test_binding.dart';
@@ -15,7 +15,7 @@ void main() async {
 
     const minutesPerDevice = 7;
     final Set<DeviceInfo> testDevices = {
-        Devices.ios.iPadPro11Inches, Devices.android.samsungGalaxyNote20, Devices.ios.iPhone12,
+        Devices.ios.iPadPro11Inches, Devices.android.samsungGalaxyNote20, Devices.ios.iPhone12
     };
     final totalExpectedDuration = Duration(minutes: testDevices.length * minutesPerDevice);
     final binding = IntegrationTestPreviewBinding.ensureInitialized();
