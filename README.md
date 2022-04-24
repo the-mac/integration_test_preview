@@ -10,7 +10,7 @@ Integration Test Preview has pre-configured methods that allow for faster test d
 </p>
 
 # Features
-## Test Example
+## Integration Test Preview Example
 When running a test using a IntegrationTestPreview subclass, you can assign the devices that you want to test against (and take screenshots for). The following is an example of how you can test all your features end to end on multiple screen types:
 
 ```dart
@@ -50,7 +50,7 @@ void main() async {
 
 ## Reviewing the screenshot results
 
-The screenshots generated using the Screenshot State, by default are written to the screenshots directory, this is possible using the test_driver/app_features_test.dart custom integrationDriver example below.
+The screenshots generated using the Screenshot State, by default are written to the screenshots directory, this is possible using the test_driver/app_features_test.dart custom integrationDriver example below. The custom integrationDriver implementation allows for the generated screenshots to be displayed in an HTML page by the name of screenshots.html in your project directory.
 
 ```dart
 
@@ -74,8 +74,6 @@ Future<void> main() => integrationDriver(
 );
 
 ```
-
-![Integration Testing Screenshots](https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_4.png)
 
 
 After the screenshots.html file is generated, the path for your screenshots.html is displayed in the console where you can open it in a browser:

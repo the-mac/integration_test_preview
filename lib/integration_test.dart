@@ -2,12 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:device_preview_community/device_preview_community.dart';
-import 'package:device_preview_community/src/views/tool_panel/sections/subsections/device_model.dart';
 import 'package:integration_test_helper/integration_test_helper.dart';
 import 'package:provider/provider.dart';
 
 import 'integration_test_binding.dart';
 
+/// Integration Test Preview has pre-configured methods that allow for faster test 
+/// deployment for end to end (e2e) test coverage (using Android and iOS platform UIs).
+///  This package is based upon the IntegrationTestHelper and sublasses [BaseIntegrationTest]
+///  as well as [DevicePreview] packages, and does much more with the combination of the two of them. 
+/// 
+/// It also allows for specific device size preview screenshots for the app stores, generated 
+/// locally in your project path; In addition to easily comparable responsive screenshots. 
+/// 
+/// When running a test using a IntegrationTestPreview subclass, you can assign the devices 
+/// that you want to test against (and take screenshots for) using the initializeDevices method.
+/// 
 abstract class IntegrationTestPreview extends BaseIntegrationTest {
 
   late bool _shouldShowToolbar = false;
@@ -68,7 +78,7 @@ abstract class IntegrationTestPreview extends BaseIntegrationTest {
         assert(_testOrder.isNotEmpty, 'There needs to be at least one device to test');
 
         this.tester = tester;
-        this.waitForMilliseconds = waitForMilliseconds;
+        setWaitMilliseconds(waitForMilliseconds);
         WidgetsApp.debugAllowBannerOverride = false;
 
         await tester.pumpWidget(DevicePreview(
@@ -181,6 +191,7 @@ abstract class IntegrationTestPreview extends BaseIntegrationTest {
     state.settings = state.settings.copyWith(
         backgroundTheme: DevicePreviewBackgroundThemeData.dark,
     );
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
     state.notifyListeners();
 
   }

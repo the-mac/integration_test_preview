@@ -2,7 +2,6 @@
 // ignore_for_file: avoid_print
 import 'package:intl/intl.dart' as intl;
 import 'package:device_frame_community/src/info/info.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test_preview/integration_test_preview.dart';

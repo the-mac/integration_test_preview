@@ -46,7 +46,9 @@ Future<void> integrationDriver(
   if(clearScreenshots) {
 
       final screenshotsDir = Directory(screenshotsPath);
-      screenshotsDir.deleteSync(recursive: true);
+      if(screenshotsDir.existsSync()) {
+          screenshotsDir.deleteSync(recursive: true);
+      }
 
   }
 

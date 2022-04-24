@@ -11,13 +11,15 @@ dependencies:
   flutter:
     sdk: flutter
 
+  intl: 0.17.0
+  http: 0.13.4
   drawer_manager: 0.0.4
   cupertino_icons: 1.0.4
   font_awesome_flutter: 9.2.0
   url_launcher: 6.0.17
   webview_flutter: 3.0.1
   shared_preferences: 2.0.11
-  responsive_widgets_prefix: 0.0.4
+  responsive_widgets_prefix: 0.0.5
 
 dev_dependencies:
 

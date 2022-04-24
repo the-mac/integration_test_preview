@@ -1,3 +1,12 @@
+## 0.1.1
+
+* Added Form Widgets Feature
+* Added Form Widgets Test Group
+* Added Generation of Device Previews Webpage
+* Added auto-deletion of screenshots
+* Added Custom integrationDriver
+* Upgrade of Integration Test Helper (0.0.9)
+
 ## 0.1.0
 
 * Adding waitForUI call after binding.takePreviewScreenshot

@@ -1,7 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'dart:io';
-
 import 'package:example/platforms.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

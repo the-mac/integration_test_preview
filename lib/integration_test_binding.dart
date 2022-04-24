@@ -7,7 +7,8 @@ import 'package:integration_test_helper/integration_test_helper.dart';
 
 enum ScreenshotState { NONE, PREVIEW, RESPONSIVE }
 
-
+/// A subclass of [IntegrationTestHelperBinding] that reports tests results
+/// on a channel to adapt them to native instrumentation test format.
 class IntegrationTestPreviewBinding extends IntegrationTestHelperBinding {
   
   /// Similar to [WidgetsFlutterBinding.ensureInitialized].

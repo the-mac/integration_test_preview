@@ -71,7 +71,7 @@ Widget _getPlatformTextFormField(
 
 class DialogRadioGroup extends StatelessWidget {
   static int _value = 5;
-  late List<String> elements;
+  final List<String> elements;
 
   Widget _getDialogComponent(int index, String option) {
     if (PlatformWidget.isAndroid) {
@@ -597,7 +597,6 @@ class _FormWidgetsDemoState extends State<FormWidgetsDemo> {
                             divisions: 500,
                             value: maxValue,
                             onChanged: (value) {
-                              print('value: $value');
                               setState(() {
                                 maxValue = value;
                               });
