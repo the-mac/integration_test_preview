@@ -9,8 +9,8 @@ Integration Test Preview has pre-configured methods that allow for faster test d
   <img width="460" src="https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_preview.gif" alt="Integration Test Preview" />
 </p>
 
-## Features
-
+# Features
+## Test Example
 When running a test using a IntegrationTestPreview subclass, you can assign the devices that you want to test against (and take screenshots for). The following is an example of how you can test all your features end to end on multiple screen types:
 
 ```dart
@@ -47,7 +47,50 @@ void main() async {
 
 ```
 
-## Getting started
+
+## Reviewing the screenshot results
+
+The screenshots generated using the Screenshot State, by default are written to the screenshots directory, this is possible using the test_driver/app_features_test.dart custom integrationDriver example below.
+
+```dart
+
+import 'dart:io';
+import 'package:integration_test_preview/integration_test_driver.dart';
+
+Future<void> main() => integrationDriver(
+    clearScreenshots: true, onScreenshot: (String screenshotPath, List<int> screenshotBytes) async {
+        
+        final File image = File(screenshotPath);
+        print(image);
+
+        final dir = image.parent;
+        if(!await dir.exists()) await dir.create(recursive: true);
+
+        image.writeAsBytesSync(screenshotBytes);
+        
+        return true;
+
+    }
+);
+
+```
+
+![Integration Testing Screenshots](https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_4.png)
+
+
+After the screenshots.html file is generated, the path for your screenshots.html is displayed in the console where you can open it in a browser:
+
+```bash
+  
+  Device Previews: /Users/your/project/path/screenshots.html
+
+```
+
+This is a preview of the screenshots gallery that is generated in screenshots.html:
+
+![Integration Testing Screenshots Gallery](https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_5.png)
+
+# Getting started
 
 Note: This example uses another one of our packages. It's called the drawer_manager 
 package, and can be found [here](https://pub.dev/packages/drawer_manager) for more details on how it works.
@@ -61,7 +104,7 @@ package, and can be found [here](https://pub.dev/packages/drawer_manager) for mo
 
 ```
 
-### Or install Provider, Drawer Manager & Integration Test Preview (in pubspec.yaml)
+## Or install Provider, Drawer Manager & Integration Test Preview (in pubspec.yaml)
 ```yaml
 
     ...
@@ -87,17 +130,17 @@ dev_dependencies:
 
 ```
 
-### Add Integration Test Driver file (test_driver/app_features_test.dart)
+## Add Integration Test Driver file (test_driver/app_features_test.dart)
 ```dart
 
 import 'dart:io';
-import 'package:integration_test/integration_test_driver_extended.dart';
+import 'package:integration_test_preview/integration_test_driver.dart';
 
 Future<void> main() => integrationDriver(
-    onScreenshot: (String screenshotPath, List<int> screenshotBytes) async {
+    clearScreenshots: true, onScreenshot: (String screenshotPath, List<int> screenshotBytes) async {
         
         final File image = File(screenshotPath);
-        print('$image');
+        print(image);
 
         final dir = image.parent;
         if(!await dir.exists()) await dir.create(recursive: true);
@@ -111,7 +154,7 @@ Future<void> main() => integrationDriver(
 
 ```
 
-## Usage
+# Usage
 
 ### Create platforms file (lib/platforms.dart)
 ```dart
@@ -520,45 +563,13 @@ void main() async {
 
 ```
 
-### Reviewing the screenshot results
-
-The screenshots named in setupScreenshot are generated after the test completes, in the screenshots directory from the test_driver/app_features_test.dart example above.
-
-![Integration Testing Screenshots](https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_4.png)
-
-But if you want to review all of them at once there is a helper dart file called [screenshots.dart](https://github.com/the-mac/integration_test_preview/tree/main/screenshots.dart) in the example project. For it to work, you should copy/save the screenshots.dart file to you project's root, and execute the following on a Mac / Linux Device:
-
-```bash
-
-    dart screenshots.dart screenshots/*/*/*
-
-```
-
-Alternatively, you can run the following on a Windows Device:
-```bash
-
-    Get-ChildItem screenshots\* -recurse > devices.txt
-    set /p devices= < devices.txt
-    dart screenshots.dart "%devices%"
-
-```
-Note: This example should be updated, because it hasn't been tested in Windows.
-
-After the dart script executes, the path for the screenshots.html is displayed in the console where you can open it in a browser:
-
-```bash
-  
-  /Users/your/project/path/screenshots.html
-
-```
-
 This is a preview of the screenshots gallery that is generated:
 
-![Integration Testing Screenshots Gallery](https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_5.png)
+![Integration Testing Screenshots Gallery](https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_6.png)
 
 And this is a preview of the navigation slides (shown after clicking a screenshot):
 
-![Integration Testing Navigation Slides](https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_6.png)
+![Integration Testing Navigation Slides](https://raw.githubusercontent.com/the-mac/integration_test_preview/main/media/integration_test_7.png)
 
 There are keyboard hotkeys for the navigation slides:
 - ← Moves to previous screenshot
