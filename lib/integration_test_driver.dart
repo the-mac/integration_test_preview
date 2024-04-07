@@ -501,20 +501,20 @@ static const beginningOfDevicePreviews = """
     
     Map<String, List<String>> groups = {};
 
-    images.forEach((imagePath) {
+    for (int index = 0; index < images.length; index++) {
+        final imagePath = images[index];
 
-      final group = imagePath.split("/")[2];
-      final hasKey = groups.containsKey(group);
-      final isNotFilled = hasKey;// && groups[group]!.length < 16;
+        final group = imagePath.split("/")[2];
+        final hasKey = groups.containsKey(group);
+        final isNotFilled = hasKey;// && groups[group]!.length < 16;
 
-      if(isNotFilled) {
-        groups[group]!.add(imagePath);
-      } else if(!hasKey) {
-        groups[group] = [];
-        groups[group]!.add(imagePath);
-      }
-
-    });
+        if(isNotFilled) {
+            groups[group]!.add(imagePath);
+        } else if(!hasKey) {
+            groups[group] = [];
+            groups[group]!.add(imagePath);
+        }
+    }
 
     return groups;
 

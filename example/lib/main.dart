@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:drawer_manager/drawer_manager.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:responsive_widgets_prefix/responsive_widgets_prefix.dart';
 
 import 'platforms.dart';
@@ -14,13 +15,27 @@ import 'preferences.dart';
 
 // clear && printf '\e[3J' && flutter run ; flutter clean
 
+// clear && printf '\e[3J' && flutter run
+
 void main() {
   runApp(setupMainWidget());
+  // runApp(setupPreviewWidget());
 }
 
 Widget setupMainWidget() {
   WidgetsFlutterBinding.ensureInitialized();
   return const MyApp();
+}
+
+Widget setupPreviewWidget() {
+  WidgetsFlutterBinding.ensureInitialized();
+  return DevicePreview(
+      enabled: true,
+      defaultDevice: Devices.ios.iPhone13,
+      isToolbarVisible: false,
+      tools: const [],
+      builder: (context) => const MyApp()
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -166,7 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
               leading: const Icon(Icons.input),
               title: Text(_getTitle(4)),
               onTap: () async {
-                // RUN A BACKEND Signup OPERATION
+                // RUN A BACKEND Forms OPERATION
               },
             ),
           ],

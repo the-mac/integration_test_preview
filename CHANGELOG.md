@@ -1,3 +1,10 @@
+## 0.1.3
+
+* Adding new versions to pubspec.yaml
+* Fixed "Failed setup" bug
+* Fixed "Smaller to larger device RenderFlow"
+* Upgraded example android project
+
 ## 0.1.1
 
 * Added Form Widgets Feature

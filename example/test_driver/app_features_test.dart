@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:integration_test_preview/integration_test_driver.dart';
 
 Future<void> main() => integrationDriver(
-    clearScreenshots: true, onScreenshot: (String screenshotPath, List<int> screenshotBytes) async {
+    clearScreenshots: true, onScreenshot: (String screenshotPath, List<int> screenshotBytes, [Map<String, Object?>? args]) async {
         
         final File image = File(screenshotPath);
         print(image);

@@ -1,7 +1,8 @@
 
 // ignore_for_file: avoid_print
+import 'dart:io' show Platform;
 import 'package:intl/intl.dart' as intl;
-import 'package:device_frame_community/src/info/info.dart';
+import 'package:device_frame/src/info/info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test_preview/integration_test_preview.dart';
@@ -148,6 +149,7 @@ class ScreenIntegrationTestGroups extends IntegrationTestPreview {
         final startingFormat = intl.DateFormat.yMd().format(start);
         await verifyExactText(startingFormat);
 
+        await waitForUI();
         await tapWidget('Edit');
         await setupScreenshot('form_widgets_3_${dateSlug}_initial', currentDevice);
 

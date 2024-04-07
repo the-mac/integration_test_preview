@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:device_preview_community/device_preview_community.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:integration_test_helper/integration_test_helper.dart';
 import 'package:provider/provider.dart';
 
@@ -175,7 +175,7 @@ abstract class IntegrationTestPreview extends BaseIntegrationTest {
   
     await toggleDeviceUI(device);
 
-    WidgetsBinding.instance!.reassembleApplication();
+    WidgetsBinding.instance.reassembleApplication();
     await _validatePlatformType();
 
     await waitForUI().then((value) async {
@@ -198,7 +198,7 @@ abstract class IntegrationTestPreview extends BaseIntegrationTest {
 
   Future<void> _selectNextScreenType() async {
 
-    final device = await _nextScreenOption();
+    await _nextScreenOption();
 
     if (! await _hasScreenOption()) return;
 

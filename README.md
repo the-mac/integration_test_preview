@@ -1,6 +1,9 @@
 
 <p align="center">
   <a href="https://pub.dartlang.org/packages/integration_test_preview"><img src="https://img.shields.io/pub/v/integration_test_preview.svg"></a>
+  <a href="https://pub.dartlang.org/packages/integration_test_preview/score"><img src="https://badges.bar/integration_test_preview/likes"></a>
+  <a href="https://pub.dartlang.org/packages/integration_test_preview/score"><img src="https://badges.bar/integration_test_preview/popularity"></a>
+  <a href="https://pub.dartlang.org/packages/integration_test_preview/score"><img src="https://badges.bar/integration_test_preview/pub%20points"></a>
 </p>
 
 Integration Test Preview has pre-configured methods that allow for faster test deployment for end to end (e2e) test coverage (using Android and iOS platform UIs). This package is based upon the [Integration Test Helper](https://pub.dev/packages/integration_test_helper) and [Device Preview](https://pub.dev/packages/device_preview) packages, and does much more with the combination of the two of them. It also allows for specific device size preview screenshots for the app stores, generated locally in your project path.
@@ -17,8 +20,8 @@ When running a test using a IntegrationTestPreview subclass, you can assign the 
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test_preview/integration_test_binding.dart';
-import 'package:device_frame_community/src/devices/devices.dart';
-import 'package:device_frame_community/src/info/info.dart';
+import 'package:device_frame/src/devices/devices.dart';
+import 'package:device_frame/src/info/info.dart';
 
 import 'package:example/main.dart' as app;
 import 'app_feature_groups.dart';
@@ -153,6 +156,8 @@ Future<void> main() => integrationDriver(
 ```
 
 # Usage
+
+The following file examples can be combined together (as a Hello World for the Integration Test Preview) to demonstrate how the package works. First you create a way to switch between platforms, a base Widget file that can switch between platforms (Android/iOS/etc.), create a driver file for saving to the screenshots directory, an IntegrationTestPreview subclass for grouping Widget tests against the grouped widgets.
 
 ### Create platforms file (lib/platforms.dart)
 ```dart
@@ -470,7 +475,7 @@ class ScreenIntegrationTestGroups extends IntegrationTestPreview {
     Future<void> testDeviceEndToEnd(DeviceInfo device) async {
 
         await waitForUI(durationMultiple: 2);
-        await testHelloFlutterFeature(device);
+        await testHelloFlutterForDevice(device);
 
     }
 
@@ -501,16 +506,16 @@ class ScreenIntegrationTestGroups extends IntegrationTestPreview {
       
     }
 
-    Future<void> testHelloFlutterFeature(DeviceInfo device) async {
-        await showHelloFlutter(position: 1);
-        await verifyAppBarText('Hello 1');
-        await verifyTextForKey('hello-page-text-1', 'Hello, Flutter 1!');
-        await setupScreenshot('hello_flutter_1', device);
+    Future<void> testHelloFlutterScreenWithIndex(int index, DeviceInfo device) async {
+        await showHelloFlutter(position: index);
+        await verifyAppBarText('Hello $index');
+        await verifyTextForKey('hello-page-text-$index', 'Hello, Flutter $index!');
+        await setupScreenshot('hello_flutter_$index', device);      
+    }
 
-        await showHelloFlutter(position: 2);
-        await verifyAppBarText('Hello 2');
-        await verifyTextForKey('hello-page-text-2', 'Hello, Flutter 2!');
-        await setupScreenshot('hello_flutter_2', device);
+    Future<void> testHelloFlutterForDevice(DeviceInfo device) async {
+        await testHelloFlutterScreenWithIndex(1, device);
+        await testHelloFlutterScreenWithIndex(2, device);
     }
 
     // ...
@@ -573,23 +578,27 @@ There are keyboard hotkeys for the navigation slides:
 - ← Moves to previous screenshot
 - → Moves to next screenshot
 - ↑ Moves to previous device (screenshot row)
-- → Moves to next device (screenshot row)
+- ↓ Moves to next device (screenshot row)
 
 Note: The navigation slides circularly cycle, so on the first screenshot ← goes to the last screenshot.
 
 ## Additional information
 
 ### Alternatively, you can run the example
-The [example project](https://github.com/the-mac/integration_test_preview/tree/main/example) has 5 screens that have grouped integration tests:
+The [example project](https://github.com/the-mac/integration_test_preview/tree/main/example) has 5 screens that have grouped integration tests for each screen:
 
-- [Hello, Flutter](https://github.com/the-mac/integration_test_preview/blob/3eedfecec4b43fc1c453838c1fe7591da87afac1/example/integration_test/app_feature_groups.dart#L139)
-- [Hello, Languages](https://github.com/the-mac/integration_test_preview/blob/3eedfecec4b43fc1c453838c1fe7591da87afac1/example/integration_test/app_feature_groups.dart#L146)
-- [Counter Sample](https://github.com/the-mac/integration_test_preview/blob/3eedfecec4b43fc1c453838c1fe7591da87afac1/example/integration_test/app_feature_groups.dart#L169)
-- [Mobile Community](https://github.com/the-mac/integration_test_preview/blob/3eedfecec4b43fc1c453838c1fe7591da87afac1/example/integration_test/app_feature_groups.dart#L192)
-- [Preferences](https://github.com/the-mac/integration_test_preview/blob/3eedfecec4b43fc1c453838c1fe7591da87afac1/example/integration_test/app_feature_groups.dart#L230)
+- [Hello, Flutter](https://github.com/the-mac/integration_test_preview/blob/main/example/integration_test/app_feature_groups.dart#L198)
+
+- [Hello, Languages](https://github.com/the-mac/integration_test_preview/blob/main/example/integration_test/app_feature_groups.dart#L205)
+
+- [Counter Sample](https://github.com/the-mac/integration_test_preview/blob/main/example/integration_test/app_feature_groups.dart#L288)
+
+- [Mobile Community](https://github.com/the-mac/integration_test_preview/blob/main/example/integration_test/app_feature_groups.dart#L251)
+
+- [Forms / Preferences](https://github.com/the-mac/integration_test_preview/blob/main/example/integration_test/app_feature_groups.dart#L293)
 
 ### Package Support
-To support this repo, take a look at the [SUPPORT.md](https://github.com/the-mac/integration_test_preview/blob/main/SUPPORT.md) file.
+To contribute to this repo, take a look at the [SUPPORT.md](https://github.com/the-mac/integration_test_preview/blob/main/CONTRIBUTE.md) file.
 
 ### Package Documentation
 To view the documentation on the package, [follow this link](https://pub.dev/documentation/integration_test_preview/latest/integration_test_preview/integration_test_preview-library.html)
